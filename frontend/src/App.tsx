@@ -62,22 +62,22 @@ function AddCardForm({onAdd}: AddCardFormProps){
   }
 function CardTraining(){
   const [index, setIndex] = useState(0);
-  const [showMore, setShowMore] = useState(false);
+  const [flipCard, setFlipCard] = useState(false);
   const hasNext = index < cards.length - 1;
 
   function handleNextClick() {
     if (hasNext) {
       setIndex(index + 1);
-      setShowMore(false);
+      setFlipCard(false);
 
     } else {
       setIndex(0);
-      setShowMore(false);
+      setFlipCard(false);
     }
   }
 
-  function handleMoreClick() {
-    setShowMore(!showMore);
+  function handleFlipCard() {
+    setFlipCard(!flipCard);
   }
 
 
@@ -88,9 +88,9 @@ function CardTraining(){
     <div>
       <button onClick={handleNextClick}> Next </button>
       <h2>
-        <p>{showMore ? backCard : frontCard}</p>
+        <p>{flipCard ? backCard : frontCard}</p>
       </h2>
-      <button onClick={handleMoreClick}> Flip </button>
+      <button onClick={handleFlipCard}> Flip </button>
       <h3>Card {index + 1 } of {cards.length}</h3>
       <AddCardForm onAdd={addCard} />
 
