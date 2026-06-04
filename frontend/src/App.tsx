@@ -149,6 +149,12 @@ function CardTraining(){
 
   return (
     <div>
+      <div className="mainBody">
+      <div className="topMargin">
+        <p></p>
+        <p>Flash Card App</p>
+        <div className="menuContainer"><IconMenu/></div>
+        </div>
       <button onClick={handleNextClick}> Next </button>
       <h2>
         <p>{flipCard ? backCard : frontCard}</p>
@@ -159,7 +165,8 @@ function CardTraining(){
       {showAddForm && <AddCardForm onAdd={addCard} />}
       <button onClick={handleShowTable}> Show Deck </button>
       {showTable && <DisplayDeck cards={cards} />}
-      <div className="menuContainer"><IconMenu/></div>
+      
+      </div>
       
 
     </div>
