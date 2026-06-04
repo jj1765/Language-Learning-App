@@ -185,8 +185,8 @@
 
 #hamburgerButton{
   position:absolute;
-  width:30px;
-  height:30px;
+  width:50px;
+  height:50px;
 
   right:20px;
   top:10px;
@@ -194,6 +194,8 @@
   padding: 0;
   border: none;
   background: transparent;
+
+  cursor: pointer;
 
   display: flex;
   align-items: center;
@@ -205,7 +207,6 @@
   display: block;
 
   object-fit: contain;
-  display: block;
 }
 .menuDisplay{
   position:absolute;
