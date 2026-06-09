@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import hamburgerIcon from './assets/hamburgerIcon.svg'
 import './App.css';
+import { Link } from "react-router-dom";
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -104,6 +105,15 @@ function AddCardForm({onAdd}: AddCardFormProps){
         <button id="hamburgerButton" onClick={handleShowMenu}><img src={hamburgerIcon} alt="Drop down Menu"></img></button>
         {showMenu && <MenuDisplay />}
       </div>
+    )
+  }
+
+  function EditDeck(){
+    return(
+
+      <button>Edit Deck</button>
+
+
     )
   }
 
