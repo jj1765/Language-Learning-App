@@ -2,11 +2,11 @@ import { useState } from 'react'
 import hamburgerIcon from '../assets/hamburgerIcon.svg'
 import '../App.css';
 import { Link } from "react-router-dom";
-import { useNavigate, redirect, Routes, Route } from "react-router-dom";
 
 type Card = {
   front: string;
   back: string;
+  id: string;
   
 }
 
@@ -16,21 +16,6 @@ type AddCardFormProps = {
   onAdd: (card: Card) => void;
 };
 
-
-const cardsExample: Card[] = [
-  {
-    front: "dom",
-    back: "house"
-  }, 
-  {
-    front: "kot",
-    back: "cat"
-  }, 
-  {
-    front: "pies",
-    back: "dog"
-  }, 
-]
 
 export function TopMargin(){
   return(
@@ -43,28 +28,30 @@ export function TopMargin(){
   );
 }
 
-function DisplayDeck({cards}: {cards: Card[]}){
+ function DisplayDeck({cards}: {cards: Card[]}){
 
-  return(<table>
+   return(<table>
   <thead>
-    <tr>
+     <tr>
+      <th>Number</th>
       <th>Front</th>
       <th>Back</th>
-    </tr>
-  </thead>
+     </tr>
+   </thead>
 
-  <tbody>
-    {cards.map((card, index) => (
-      <tr key={index}>
+   <tbody>
+     {cards.map((card, index) => (
+       <tr key={card.id}>
+        <td>{index+1}</td>
         <td>{card.front}</td>
         <td>{card.back}</td>
-      </tr>
-    ))}
-  </tbody>
-</table>);
+       </tr>
+     ))}
+   </tbody>
+ </table>);
   
   
-}
+ }
 
 
 function AddCardForm({onAdd}: AddCardFormProps){
@@ -76,7 +63,7 @@ function AddCardForm({onAdd}: AddCardFormProps){
   function handleSubmit(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault();
 
-    onAdd({front,back});
+    onAdd({front,back, id: crypto.randomUUID()});
     setFront('');
     setBack('');
 
@@ -124,7 +111,7 @@ function AddCardForm({onAdd}: AddCardFormProps){
 
 
 function Home(){
-  const [cards, setCards] = useState<Card[]>([{front: "", back: ""}]);
+  const [cards, setCards] = useState<Card[]>([{front: "Front", back: "Back", id:crypto.randomUUID()}]);
   const [index, setIndex] = useState(0);
   const [flipCard, setFlipCard] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -156,12 +143,20 @@ function Home(){
   function addCard(card: Card){
   setCards(prev => [...prev, card]);
   }
+  function deleteCard(id:string){
+    setCards(prev => prev.filter(card => card.id !==id));
+  }
+
+  let frontCard = "There is no card";
+  let backCard = "There is no card";
+  if (cards.length > 0) {
+   frontCard = cards[index].front;
+   backCard = cards[index].back;
+}
+
+
 
   
-
-
-  let frontCard = cards[index].front;
-  let backCard = cards[index].back;
 
   return (
     <div>
@@ -175,6 +170,7 @@ function Home(){
       <h3>Card {index + 1 } of {cards.length}</h3>
       <button onClick={handleShowAddForm}> Add a card </button>
       {showAddForm && <AddCardForm onAdd={addCard} />}
+      <button onClick={() => deleteCard(cards[index].id)}>Delete Card</button>
       <button onClick={handleShowTable}> Show Deck </button>
       {showTable && <DisplayDeck cards={cards} />}
       
