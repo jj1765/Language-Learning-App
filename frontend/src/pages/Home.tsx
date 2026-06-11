@@ -2,14 +2,9 @@ import { useState } from 'react'
 import hamburgerIcon from '../assets/hamburgerIcon.svg'
 import '../App.css';
 import { Link } from "react-router-dom";
-
-type Card = {
-  front: string;
-  back: string;
-  id: string;
-  
-}
-
+import {type Card} from "../types/Card";
+import {type Deck} from "../types/Deck";
+import {useDeck} from "../context/DeckContext";
 
 
 type AddCardFormProps = {
@@ -111,7 +106,10 @@ function AddCardForm({onAdd}: AddCardFormProps){
 
 
 function Home(){
-  const [cards, setCards] = useState<Card[]>([{front: "Front", back: "Back", id:crypto.randomUUID()}]);
+  const { decks, setDecks } = useDeck();
+  
+  const deck = decks[0]; //Temporary 
+  const cards = deck.cards; //Temporary 
   const [index, setIndex] = useState(0);
   const [flipCard, setFlipCard] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -140,11 +138,29 @@ function Home(){
       setFlipCard(false);
     }
   }
-  function addCard(card: Card){
-  setCards(prev => [...prev, card]);
+  function addCard(deckId: string, card: Card){
+  setDecks(prev =>
+    prev.map(deck => {
+      if(deck.id !==deckId){
+        return deck;
+      }
+      return{
+        ...deck, cards: [...deck.cards, card]
+      };
+    })
+  );
   }
-  function deleteCard(id:string){
-    setCards(prev => prev.filter(card => card.id !==id));
+  function deleteCard(deckId: string, cardId: string){
+    setDecks(prev => 
+      prev.map(deck => {
+        if(deck.id !==deckId){
+        return deck;
+      }
+      return {
+        ...deck, cards: deck.cards.filter(c => c.id !== cardId)
+      };
+      })
+    );
   }
 
   let frontCard = "There is no card";
@@ -168,9 +184,9 @@ function Home(){
       </h2>
       <button onClick={handleFlipCard}> Flip </button>
       <h3>Card {index + 1 } of {cards.length}</h3>
-      <button onClick={handleShowAddForm}> Add a card </button>
-      {showAddForm && <AddCardForm onAdd={addCard} />}
-      <button onClick={() => deleteCard(cards[index].id)}>Delete Card</button>
+      
+      
+      
       <button onClick={handleShowTable}> Show Deck </button>
       {showTable && <DisplayDeck cards={cards} />}
       
@@ -179,7 +195,9 @@ function Home(){
 
     </div>
   );
-
+  //<button onClick={() => deleteCard(cards[index].id)}>Delete Card</button>
+  //<button onClick={handleShowAddForm}> Add a card </button>
+  //{showAddForm && <AddCardForm onAdd={addCard} />}
   
 }
 

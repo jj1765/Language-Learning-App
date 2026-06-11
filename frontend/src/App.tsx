@@ -3,14 +3,16 @@ import Home from "./pages/Home";
 import DeckSettings from './pages/DeckSettings';
 import './App.css';
 import Decks from "./pages/Decks";
+import { DeckProvider } from "./context/DeckContext";
 
 function App(){
   return(
+    
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/deckSettings" element={<DeckSettings />} />
       <Route path="/decks" element={<Decks />} />
-
+      <Route path="/decks/:deckId" element={<Decks />} />
     </Routes>
   )
 }
