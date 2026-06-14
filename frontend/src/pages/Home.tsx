@@ -109,7 +109,7 @@ function Home(){
   const { decks, setDecks } = useDeck();
   
   const deck = decks[0]; //Temporary 
-  const cards = deck.cards; //Temporary 
+  const cards = deck.cards; //Temporary FIX THIS
   const [index, setIndex] = useState(0);
   const [flipCard, setFlipCard] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
