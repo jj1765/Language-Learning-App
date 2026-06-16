@@ -83,7 +83,9 @@ function Decks(){
   const deck = decks.find(d => d.id === deckId);
 
   if (!deck){
-    return (<div>Deck not found</div>);
+    return (<div> <p>Deck not found</p> <br></br>
+              <Link to="/">Home</Link> <br></br>
+            </div>);
   }
   
   

@@ -5,6 +5,11 @@ import { useState } from 'react'
 import { Link } from "react-router-dom";
 import '../App.css';
 
+function CreateDeck(){
+    const {decks} = useDeck();
+
+}
+
 export default function DeckList(){
     const {decks} = useDeck();
 

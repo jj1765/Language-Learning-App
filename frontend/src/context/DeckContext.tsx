@@ -1,9 +1,16 @@
 import { createContext, useContext, useEffect, useState, type ReactNode, } from "react";
-import { type Deck} from "../types/Deck";
+import { type Deck } from "../types/Deck";
+import { type Card } from "../types/Card";
 
 type DeckContextType = {
   decks: Deck[];
+  cards: Card[];
+  addDeck: (name: string) => void;
+  deleteDeck: (id: string) => void;
+  addCard: (id: string, card: Card[]) => void;
+  deleteCard: (id: string, card: Card[]) => void;
   setDecks: React.Dispatch<React.SetStateAction<Deck[]>>;
+
 };
 
 const DeckContext = createContext<DeckContextType | null>(null);
@@ -13,8 +20,35 @@ type DeckProviderProps = {
     children: ReactNode;
 }
 
+
 export function DeckProvider({children}: DeckProviderProps){
     const [decks, setDecks] = useState<Deck[]>([]);
+
+    function addDeck(name: string){
+    setDecks(prev => [...prev, {id: crypto.randomUUID() , name, cards: []}])
+    }
+
+    function deleteDeck(id: string){
+        setDecks(prev => prev.filter(deck => deck.id !== id));
+    }
+    
+    function addCard(id: string, card: Card){
+        setDecks(prev => prev.map(deck => {
+            if(deck.id !== id){
+                return deck;
+            }
+            return{
+                ...deck, cards:[...deck.cards, card]
+            };
+    }));
+
+    }
+
+    function deleteCard(id: string, card: Card){
+        
+    }
+
+
 
     //useEffect runs the function on startup
     useEffect(() => {
@@ -32,7 +66,7 @@ export function DeckProvider({children}: DeckProviderProps){
     }, [decks]);
 
     return(
-        <DeckContext.Provider value={{decks, setDecks}}>{children}</DeckContext.Provider>
+        <DeckContext.Provider value={{decks, addDeck, deleteDeck, addCard, deleteCard, setDecks}}>{children}</DeckContext.Provider>
     );
     
 }
