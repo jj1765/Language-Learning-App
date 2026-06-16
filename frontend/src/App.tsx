@@ -4,6 +4,7 @@ import DeckSettings from './pages/DeckSettings';
 import './App.css';
 import Decks from "./pages/Decks";
 import { DeckProvider } from "./context/DeckContext";
+import DeckList from "./pages/DecksList";
 
 function App(){
   return(
@@ -13,6 +14,7 @@ function App(){
       <Route path="/deckSettings" element={<DeckSettings />} />
       <Route path="/decks" element={<Decks />} />
       <Route path="/decks/:deckId" element={<Decks />} />
+      <Route path="/decksList" element={<DeckList/>}/>
     </Routes>
   )
 }

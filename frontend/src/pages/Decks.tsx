@@ -2,7 +2,6 @@ import { TopMargin } from "./Home";
 import { useParams } from "react-router-dom";
 import { useDeck } from "../context/DeckContext";
 import { useState } from 'react'
-import hamburgerIcon from '../assets/hamburgerIcon.svg'
 import '../App.css';
 import { Link } from "react-router-dom";
 import {type Card} from "../types/Card";

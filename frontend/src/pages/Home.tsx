@@ -89,8 +89,9 @@ function AddCardForm({onAdd}: AddCardFormProps){
       return (
         <div className="menuDisplay">
            <Link to="/deckSettings">Deck Settings</Link> <br></br>
-           <Link to="/decks">Decks</Link> <br></br>
-           <Link to="/">Home</Link>
+           <Link to="/decks">Practice a deck</Link> <br></br>
+           <Link to="/">Home</Link> <br></br>
+           <Link to="/decksList">Decks List</Link>
         </div>
 
       );
@@ -106,89 +107,11 @@ function AddCardForm({onAdd}: AddCardFormProps){
 
 
 function Home(){
-  const { decks, setDecks } = useDeck();
-  
-  const deck = decks[0]; //Temporary 
-  const cards = deck.cards; //Temporary FIX THIS
-  const [index, setIndex] = useState(0);
-  const [flipCard, setFlipCard] = useState(false);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [showTable, setShowTable] = useState(false);
-  const hasNext = index < cards.length - 1;
-
-  function handleFlipCard() {
-    setFlipCard(!flipCard);
-  }
-
-  function handleShowAddForm(){
-    setShowAddForm(!showAddForm);
-  }
-
-  function handleShowTable(){
-    setShowTable(!showTable);
-  }
-
-  function handleNextClick() {
-    if (hasNext) {
-      setIndex(index + 1);
-      setFlipCard(false);
-
-    } else {
-      setIndex(0);
-      setFlipCard(false);
-    }
-  }
-  function addCard(deckId: string, card: Card){
-  setDecks(prev =>
-    prev.map(deck => {
-      if(deck.id !==deckId){
-        return deck;
-      }
-      return{
-        ...deck, cards: [...deck.cards, card]
-      };
-    })
-  );
-  }
-  function deleteCard(deckId: string, cardId: string){
-    setDecks(prev => 
-      prev.map(deck => {
-        if(deck.id !==deckId){
-        return deck;
-      }
-      return {
-        ...deck, cards: deck.cards.filter(c => c.id !== cardId)
-      };
-      })
-    );
-  }
-
-  let frontCard = "There is no card";
-  let backCard = "There is no card";
-  if (cards.length > 0) {
-   frontCard = cards[index].front;
-   backCard = cards[index].back;
-}
-
-
-
-  
 
   return (
     <div>
       <div className="mainBody">
       <TopMargin />
-      <button onClick={handleNextClick}> Next </button>
-      <h2>
-        <p>{flipCard ? backCard : frontCard}</p>
-      </h2>
-      <button onClick={handleFlipCard}> Flip </button>
-      <h3>Card {index + 1 } of {cards.length}</h3>
-      
-      
-      
-      <button onClick={handleShowTable}> Show Deck </button>
-      {showTable && <DisplayDeck cards={cards} />}
       
       </div>
       
