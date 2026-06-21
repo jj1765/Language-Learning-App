@@ -203,6 +203,15 @@
 
   object-fit: contain;
 }
+
+.editDeckTable, th, td{
+  border: 2px solid white;
+  border-collapse: collapse;
+}
+
+th:empty {
+  border: none;
+}
 .menuDisplay{
   position:absolute;
   min-width: 150px;
@@ -233,6 +242,6 @@
 }
 
 .mainBody{
-  background-color: rgb(126, 212, 126);
+  background-color: rgb(41, 41, 41);
   min-height: 100vh;
 }

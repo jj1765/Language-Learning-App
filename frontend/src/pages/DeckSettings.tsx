@@ -97,14 +97,12 @@ function AddCardForm(){
 
 
     editCard(deck.id, {front,back, id: card.id});
-    setFront('');
-    setBack('');
 
   }
     return(
       <div>
         <form onSubmit={handleSubmit}>
-          <h2>Edit a Card</h2>
+          
 
           <input placeholder={front} value={front} onChange={(e) => setFront(e.target.value)}></input>
           <input placeholder={back} value={back} onChange={(e) => setBack(e.target.value)}></input>
@@ -116,6 +114,7 @@ function AddCardForm(){
     );
 
   }
+
     
 
    
@@ -132,23 +131,37 @@ function DeckSettings(){
               <Link to="/">Home</Link> <br></br>
             </div>);
   }
+
+   function populateDeck(){
+    if (!deck){
+    return (<div> <p>Deck not found</p> <br></br>
+              <Link to="/">Home</Link> <br></br>
+            </div>);
+  }
+
+    for(let i = 0; i< 50; i++){
+      addCard(deck.id, {front: "front " + i, back: "back " + i, id: crypto.randomUUID()});
+
+    }
+
+  }
   
   
   const cards = deck.cards; //Temporary 
   const [showAddForm, setShowAddForm] = useState(false);
-  const [showEditForm, setShowEditForm] = useState(false);
+
 
 
   function handleShowAddForm(){
     setShowAddForm(!showAddForm);
   }
 
-  function handleShowEditForm(){
-    setShowEditForm(!showEditForm);
-  }
 
 
 
+
+  //<p>{flipCard ? backCard : frontCard}</p>
+  //<td>{showEditForm && <EditCardForm card={cards[index]} />}</td>
   //Fix edit button, form shows up on every row
   //Potentially have each card in an editable form and have one update button at the bottom
   return (
@@ -156,48 +169,65 @@ function DeckSettings(){
       <div className="mainBody">
       <TopMargin />
       <button onClick={handleShowAddForm}> Add a card </button>
+      <button onClick={() => populateDeck()}>Populate Deck </button>
       {showAddForm && <AddCardForm />}
-    <table>
+    <table className="editDeckTable">
   <thead>
      <tr>
       <th>Number</th>
       <th>Front</th>
       <th>Back</th>
+      <th>Delete</th>
      </tr>
    </thead>
-
+   
    <tbody>
      {cards.map((card, index) => (
        <tr key={card.id}>
         <td>{index+1}</td>
-        <td>{card.front}</td>
-        <td>{card.back}</td>
+        <td><input value={card.front} onChange={(e) => editCard(deck.id, {...card, front: e.target.value})}></input></td>
+        <td><input value={card.back} onChange={(e) => editCard(deck.id, {...card, back: e.target.value})}></input></td> 
         <td><button onClick={() => deleteCard(deck.id, cards[index].id)}>Delete Card</button></td>
-        <td><button onClick={handleShowEditForm}> Edit card </button></td> 
-        {showEditForm && <EditCardForm card={cards[index]} />}
         
        </tr>
      ))}
    </tbody>
  </table>
-      {/* <div className="mainBody">
-      <TopMargin />
-      <button onClick={handleNextClick}> Next </button>
-      <h2>
-        <p>{flipCard ? backCard : frontCard}</p>
-      </h2>
-      <button onClick={handleFlipCard}> Flip </button>
-      <h3>Card {index + 1 } of {cards.length}</h3>
-      <button onClick={handleShowAddForm}> Add a card </button>
-      {showAddForm && <AddCardForm onAdd={(card) => addCard(deck.id, card)} />}
-      <button onClick={() => deleteCard(deck.id, cards[index].id)}>Delete Card</button>
-      <button onClick={handleShowTable}> Show Deck </button>
-      {showTable && <DisplayDeck cards={cards} />}
-      
-      </div> */}
-      
       </div>
     </div>
+//     <div>
+//       <div className="mainBody">
+//       <TopMargin />
+//       <button onClick={handleShowAddForm}> Add a card </button>
+//       <button onClick={handleShowEditForm}> Toggle Edit card </button>
+//       <button onClick={() => populateDeck()}>Populate Deck </button>
+//       {showAddForm && <AddCardForm />}
+//     <table className="editDeckTable">
+//   <thead>
+//      <tr>
+//       <th>Number</th>
+//       <th>{showEditForm ? "Front" :  "Front Back"}</th>
+//       <th>{showEditForm ? "Back" :  null}</th>
+//       <th>Delete</th>
+//      </tr>
+//    </thead>
+   
+//    <tbody>
+//      {cards.map((card, index) => (
+//        <tr key={card.id}>
+//         <td>{index+1}</td>
+//         <td>{showEditForm ? card.front : <EditCardForm card={cards[index]} />}</td>
+//         <td>{showEditForm ? card.back :  null}</td> 
+//         <td><button onClick={() => deleteCard(deck.id, cards[index].id)}>Delete Card</button></td>
+        
+        
+        
+//        </tr>
+//      ))}
+//    </tbody>
+//  </table>
+//       </div>
+//     </div>
   );
 
   
