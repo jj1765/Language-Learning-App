@@ -1,7 +1,7 @@
 import { TopMargin } from "./Home";
 import { useParams } from "react-router-dom";
 import { useDeck } from "../context/DeckContext";
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import '../App.css';
 import { Link } from "react-router-dom";
 import {type Card} from "../types/Card";
@@ -40,7 +40,7 @@ import {type Card} from "../types/Card";
 
 
 function Practice(){
-  const { decks } = useDeck();
+  const { decks, shuffleMode } = useDeck();
   const {deckId} = useParams();
 
   const deck = decks.find(d => d.id === deckId);
@@ -52,11 +52,40 @@ function Practice(){
   }
   
   
-  const cards = deck.cards; //Temporary 
+  
   const [index, setIndex] = useState(0);
   const [flipCard, setFlipCard] = useState(false);
-  const hasNext = index < cards.length - 1;
+  const [practiceCards, setPracticeCards] = useState<Card[]>([]);
+
+  //Fisher-Yates shuffle
+  function shuffleCards(cards: Card[]) {
+    const shuffledDeck = [...cards];
+
+    for (let i = shuffledDeck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [shuffledDeck[i], shuffledDeck[j]] = [shuffledDeck[j], shuffledDeck[i]];
+    }
+
+    return shuffledDeck;
+}
+
+useEffect(() => {
+    if (!deck) return;
+
+    if (shuffleMode) {
+        setPracticeCards(shuffleCards(deck.cards));
+    } else {
+        setPracticeCards(deck.cards);
+    }
+
+    setIndex(0);
+    setFlipCard(false);
+}, [deck, shuffleMode]);
+
+  const hasNext = index < practiceCards.length - 1;
   const hasBack = index > 0;
+
 
   function handleFlipCard() {
     setFlipCard(!flipCard);
@@ -85,14 +114,16 @@ function Practice(){
     }
   }
   
-  
 
   let frontCard = "There is no card";
   let backCard = "There is no card";
-  if (cards.length > 0) {
-   frontCard = cards[index].front;
-   backCard = cards[index].back;
-}
+  if (practiceCards.length > 0) {
+    frontCard = practiceCards[index].front;
+    backCard = practiceCards[index].back;
+    }
+
+   
+
 
 
 
@@ -112,7 +143,7 @@ function Practice(){
       <button onClick={handleNextClick}> Next </button>
       </div>
       
-      <h3>Card {index + 1 } of {cards.length}</h3>
+      <h3>Card {index + 1 } of {practiceCards.length}</h3>
       {/* <button onClick={handleShowTable}> Show Deck </button>
       {showTable && <DisplayDeck cards={cards} />} */}
       

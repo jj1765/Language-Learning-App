@@ -4,7 +4,8 @@ import { type Card } from "../types/Card";
 
 export type DeckContextType = {
   decks: Deck[];
-  
+  shuffleMode:boolean;
+  handleShuffleMode:() => void;
   addDeck: (name: string) => void;
   deleteDeck: (id: string) => void;
   addCard: (id: string, card: Card) => void;
@@ -24,6 +25,11 @@ type DeckProviderProps = {
 
 export function DeckProvider({children}: DeckProviderProps){
     const [decks, setDecks] = useState<Deck[]>([]);
+    const [shuffleMode, setShuffleMode] = useState(false);
+
+    function handleShuffleMode(){
+    setShuffleMode(!shuffleMode);
+  }
 
     function addDeck(name: string){
     setDecks(prev => [...prev, {id: crypto.randomUUID() , name, cards: []}])
@@ -92,7 +98,7 @@ export function DeckProvider({children}: DeckProviderProps){
     }, [decks]);
 
     return(
-        <DeckContext.Provider value={{decks, addDeck, deleteDeck, addCard, deleteCard, editCard, setDecks}}>{children}</DeckContext.Provider>
+        <DeckContext.Provider value={{shuffleMode, decks, handleShuffleMode, addDeck, deleteDeck, addCard, deleteCard, editCard, setDecks}}>{children}</DeckContext.Provider>
     );
     
 }

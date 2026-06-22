@@ -36,12 +36,14 @@ function Createdeck(){
 
   //TO DO: Add ability to choose settings or practice
 export default function DeckList(){
-    const {decks} = useDeck();
+    const {decks, handleShuffleMode, shuffleMode} = useDeck();
     const [showAddForm, setShowAddForm] = useState(false);
 
     function handleShowAddForm(){
     setShowAddForm(!showAddForm);
   }
+
+  
 
     return(
         <div>
@@ -55,8 +57,12 @@ export default function DeckList(){
                 </div>
         ))}
 
-        <button onClick={handleShowAddForm}>Create a deck</button>
+        <button onClick={handleShowAddForm}>Create a deck</button><br></br>
         {showAddForm && <Createdeck />}
+        <button className={shuffleMode ? "activeButton" : "inactiveButton"}onClick={handleShuffleMode}>Shuffle Mode</button>
+        <button onClick={() => null}>Standard Mode (Null at the moment)</button>
+
+
         </div>
         </div>
     );

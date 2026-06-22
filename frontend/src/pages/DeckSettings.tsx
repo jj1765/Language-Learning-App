@@ -156,8 +156,10 @@ function DeckSettings(){
     <div>
       <div className="mainBody">
       <TopMargin />
+      <h2>{deck.name}</h2>
       <button onClick={() => addCard(deck.id, {front:"", back:"", id: crypto.randomUUID()})}> Add a card </button>
       <button onClick={() => populateDeck()}>Populate Deck </button>
+      <div className="editDeckSection">
     <table className="editDeckTable">
   <thead>
      <tr>
@@ -180,6 +182,7 @@ function DeckSettings(){
      ))}
    </tbody>
  </table>
+ </div>
 
       </div>
     </div>

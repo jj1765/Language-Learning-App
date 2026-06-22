@@ -208,6 +208,12 @@
   color:antiquewhite;
 }
 
+.editDeckSection{
+  display: flex;
+  padding:20px;
+  align-items: center;
+  justify-content: center;
+}
 .editDeckTable, th, td{
   border: 2px solid white;
   border-collapse: collapse;
@@ -271,9 +277,16 @@ th:empty {
   background-color: rgb(41, 41, 41);
   min-height: 100vh;
 }
+.mainBody h2{
+  color:white;
+}
 
 .deckLink{
   text-decoration: none;
+  color:rgb(36, 250, 221);
+}
+.deckLink:hover{
+  text-decoration: underline;
   color:rgb(36, 250, 221);
 }
 .deckSettingsLayout{
@@ -281,4 +294,14 @@ th:empty {
   gap: 30px;
   padding:20px;
   justify-content: center;
+}
+
+.activeButton{
+  background-color: green;
+  color:white;
+}
+
+.inactiveButton{
+  background-color: red;
+  color:white;
 }
